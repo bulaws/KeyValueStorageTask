@@ -28,7 +28,8 @@ class KeyValueStorageJson implements KeyValueStorageInterface
     {
         $finalContent = array_replace($this->fileContent, $this->cache);
         ftruncate($this->fileStream, 0);
-        fwrite($this->fileStream, json_encode($finalContent));
+        $finalContent = json_encode($finalContent);
+        fwrite($this->fileStream, !empty($finalContent) ? $finalContent : '');
     }
 
     public function fileClose()
@@ -62,7 +63,7 @@ class KeyValueStorageJson implements KeyValueStorageInterface
      */
     public function has(string $key): bool
     {
-        return isset($this->get($key));
+        return !empty($this->get($key));
     }
 
     /**

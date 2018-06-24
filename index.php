@@ -6,13 +6,11 @@ use App\Models\KeyValueStorageCache;
 use App\Models\KeyValueStorageJson;
 use App\Models\KeyValueStorageYaml;
 
-use App\classes\JsonStorage;
-/*$cache = new CacheStorage();
 
-$cache->set('test','23');
-var_dump($cache);
-var_dump($cache->has('test'));*/
+$json = new KeyValueStorageJson(__DIR__ . '/storage/FileJson.json');
 
-$json = new JsonStorage(__DIR__.'/file.json');
-
+$json->read();
 var_dump($json);
+$json->clear();
+$json->write();
+$json->fileClose();
