@@ -36,13 +36,9 @@ class KeyValueStorageJson implements KeyValueStorageInterface
         fclose($this->fileStream);
     }
 
-
     public function set(string $key, $value): void
     {
-        $this->read();
         $this->cache[$key] = $value;
-        $this->write();
-        $this->fileClose();
     }
 
     /**
@@ -53,11 +49,10 @@ class KeyValueStorageJson implements KeyValueStorageInterface
      */
     public function get(string $key)
     {
-        $this->read();
-        if(isset($this->cache[$key])){
-            return $this->cache[$key];
+        $fullContent = array_replace($this->fileContent, $this->cache);
+        if(isset($fullContent[$key])){
+            return $fullContent[$key];
         }
-        $this->fileClose();
     }
 
     /**
@@ -77,11 +72,11 @@ class KeyValueStorageJson implements KeyValueStorageInterface
      */
     public function remove(string $key): void
     {
-       $this->read();
-       if(isset($this->cache[$key])){
+       if (isset($this->cache[$key])) {
            unset($this->cache[$key]);
+       } elseif (isset($this->fileContent[$key])) {
+           unset($this->fileContent[$key]);
        }
-       $this->fileClose();
     }
 
     /**
@@ -89,14 +84,7 @@ class KeyValueStorageJson implements KeyValueStorageInterface
      */
     public function clear(): void
     {
-        $this->read();
         $this->cache = [];
         $this->fileContent = [];
-        $this->write();
-        $this->fileClose();
     }
-
-
-
-
 }
