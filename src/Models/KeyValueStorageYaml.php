@@ -2,20 +2,36 @@
 
 
 namespace App\Models;
+
 use App\Models\KeyValueStorageInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class KeyValueStorageYaml implements KeyValueStorageInterface
 {
+    private $cache = [];
+    private $fileName;
+    private $fileContent;
 
-    /**
-     * Store value by key.
-     *
-     * @param string $key
-     * @param mixed $value
-     */
+    public function __construct($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+    public function read()
+    {
+        $this->fileContent = Yaml::parseFile("$this->fileName");
+    }
+
+    public function write()
+    {
+        $finalContent = array_replace($this->fileContent, $this->cache);
+        $yaml = Yaml::dump($finalContent);
+        file_put_contents("$this->fileName", !empty($yaml) ? $yaml : '');
+    }
+
     public function set(string $key, $value): void
     {
-        // TODO: Implement set() method.
+        $this->cache[$key] = $value;
     }
 
     /**
@@ -26,7 +42,10 @@ class KeyValueStorageYaml implements KeyValueStorageInterface
      */
     public function get(string $key)
     {
-        // TODO: Implement get() method.
+        $fullContent = array_replace($this->fileContent, $this->cache);
+        if(isset($fullContent[$key])){
+            return $fullContent[$key];
+        }
     }
 
     /**
@@ -36,7 +55,7 @@ class KeyValueStorageYaml implements KeyValueStorageInterface
      */
     public function has(string $key): bool
     {
-        // TODO: Implement has() method.
+        return !empty($this->get($key));
     }
 
     /**
@@ -46,7 +65,11 @@ class KeyValueStorageYaml implements KeyValueStorageInterface
      */
     public function remove(string $key): void
     {
-        // TODO: Implement remove() method.
+        if (isset($this->cache[$key])) {
+            unset($this->cache[$key]);
+        } elseif (isset($this->fileContent[$key])) {
+            unset($this->fileContent[$key]);
+        }
     }
 
     /**
@@ -54,6 +77,7 @@ class KeyValueStorageYaml implements KeyValueStorageInterface
      */
     public function clear(): void
     {
-        // TODO: Implement clear() method.
+        $this->cache = [];
+        $this->fileContent = [];
     }
 }

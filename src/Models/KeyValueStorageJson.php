@@ -2,6 +2,7 @@
 
 
 namespace App\Models;
+
 use App\Models\KeyValueStorageInterface;
 
 class KeyValueStorageJson implements KeyValueStorageInterface

@@ -2,6 +2,7 @@
 
 
 namespace App\Models;
+
 use App\Models\KeyValueStorageInterface;
 
 class KeyValueStorageCache implements KeyValueStorageInterface
