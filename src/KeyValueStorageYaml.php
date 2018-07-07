@@ -1,9 +1,9 @@
 <?php
 
 
-namespace App\Models;
+namespace App\Storage;
 
-use App\Models\KeyValueStorageInterface;
+use App\Storage\KeyValueStorageInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class KeyValueStorageYaml implements KeyValueStorageInterface
@@ -29,7 +29,7 @@ class KeyValueStorageYaml implements KeyValueStorageInterface
         file_put_contents("$this->fileName", !empty($yaml) ? $yaml : '');
     }
 
-    public function set(string $key, $value): void
+    public function set(string $key, $value) : void
     {
         $this->cache[$key] = $value;
     }
@@ -53,7 +53,7 @@ class KeyValueStorageYaml implements KeyValueStorageInterface
      *
      * @return bool
      */
-    public function has(string $key): bool
+    public function has(string $key) : bool
     {
         return !empty($this->get($key));
     }
@@ -63,7 +63,7 @@ class KeyValueStorageYaml implements KeyValueStorageInterface
      *
      * @param string $key
      */
-    public function remove(string $key): void
+    public function remove(string $key) : void
     {
         if (isset($this->cache[$key])) {
             unset($this->cache[$key]);
@@ -75,7 +75,7 @@ class KeyValueStorageYaml implements KeyValueStorageInterface
     /**
      * Clear storage.
      */
-    public function clear(): void
+    public function clear() : void
     {
         $this->cache = [];
         $this->fileContent = [];

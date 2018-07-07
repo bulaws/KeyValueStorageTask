@@ -1,9 +1,9 @@
 <?php
 
 
-namespace App\Models;
+namespace App\Storage;
 
-use App\Models\KeyValueStorageInterface;
+use App\Storage\KeyValueStorageInterface;
 
 class KeyValueStorageJson implements KeyValueStorageInterface
 {
@@ -38,7 +38,7 @@ class KeyValueStorageJson implements KeyValueStorageInterface
         fclose($this->fileStream);
     }
 
-    public function set(string $key, $value): void
+    public function set(string $key, $value) : void
     {
         $this->cache[$key] = $value;
     }
@@ -62,7 +62,7 @@ class KeyValueStorageJson implements KeyValueStorageInterface
      *
      * @return bool
      */
-    public function has(string $key): bool
+    public function has(string $key) : bool
     {
         return !empty($this->get($key));
     }
@@ -72,7 +72,7 @@ class KeyValueStorageJson implements KeyValueStorageInterface
      *
      * @param string $key
      */
-    public function remove(string $key): void
+    public function remove(string $key) : void
     {
        if (isset($this->cache[$key])) {
            unset($this->cache[$key]);
