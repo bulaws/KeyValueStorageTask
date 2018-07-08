@@ -11,9 +11,9 @@ class KeyValueStorageJsonTest extends TestCase
     /**
      * @var KeyValueStorageJson
      */
-    public $jsonStorage;
-    public $testData;
-    public static $fileName = __DIR__."/../storage/FileJsonStorage.json";
+    protected $jsonStorage;
+    protected $testData;
+    protected static $fileName = __DIR__."/../storage/FileJsonStorage.json";
 
     public function setUp()
     {
