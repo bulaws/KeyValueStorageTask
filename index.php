@@ -2,15 +2,14 @@
 
 require __DIR__."/vendor/autoload.php";
 
-use App\Models\KeyValueStorageCache;
-use App\Models\KeyValueStorageJson;
-use App\Models\KeyValueStorageYaml;
+use App\Storage\KeyValueStorageCache;
+use App\Storage\KeyValueStorageJson;
+use App\Storage\KeyValueStorageYaml;
 
 
 $json = new KeyValueStorageJson(__DIR__ . '/storage/FileJson.json');
 
 $json->read();
-var_dump($json);
-$json->clear();
+//var_dump($json);
 $json->write();
 $json->fileClose();

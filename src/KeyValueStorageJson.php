@@ -7,10 +7,10 @@ use App\Storage\KeyValueStorageInterface;
 
 class KeyValueStorageJson implements KeyValueStorageInterface
 {
-    private $cache = [];
+    public $cache = [];
     private $fileName;
-    private $fileStream;
-    private $fileContent;
+    private $fileStream = null;
+    public $fileContent = [];
 
     public function __construct($fileName)
     {
@@ -35,7 +35,11 @@ class KeyValueStorageJson implements KeyValueStorageInterface
 
     public function fileClose()
     {
-        fclose($this->fileStream);
+        if ($this->fileStream) {
+            $closed = fclose($this->fileStream);
+            $this->fileStream = null;
+            return $closed;
+        }
     }
 
     public function set(string $key, $value) : void
