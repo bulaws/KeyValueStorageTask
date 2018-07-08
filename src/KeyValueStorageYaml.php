@@ -8,9 +8,9 @@ use Symfony\Component\Yaml\Yaml;
 
 class KeyValueStorageYaml implements KeyValueStorageInterface
 {
-    private $cache = [];
+    public $cache = [];
     private $fileName;
-    private $fileContent;
+    public $fileContent = [];
 
     public function __construct($fileName)
     {
