@@ -15,14 +15,14 @@ class KeyValueStorageJsonTest extends TestCase
     protected $testData;
     protected static $fileName = __DIR__."/../storage/FileJsonStorage.json";
 
-    public function setUp()
+    protected function setUp()
     {
         $this->testData = ["animal" => "dog"];
         file_put_contents(self::$fileName, json_encode($this->testData));
         $this->jsonStorage = new KeyValueStorageJson(self::$fileName);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         $this->jsonStorage->fileClose();
         unlink(self::$fileName);

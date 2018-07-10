@@ -15,7 +15,7 @@ class KeyValueStorageYamlTest extends TestCase
     protected $testData;
     protected static $fileName = __DIR__."/../storage/FileYamlStorage.yaml";
 
-    public function setUp()
+    protected function setUp()
     {
         $this->testData = ["animal" => "dog"];
         $yaml = Yaml::dump($this->testData);
@@ -23,7 +23,7 @@ class KeyValueStorageYamlTest extends TestCase
         $this->yamlStorage = new KeyValueStorageYaml(self::$fileName);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unlink(self::$fileName);
         $this->yamlStorage = null;
